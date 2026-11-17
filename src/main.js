@@ -3,7 +3,7 @@ import { createBoard } from './scene.js';
 import { DemoDevice, decodeLine, freshState, updateState, isFresh } from './protocol.js';
 import { SerialConnection } from './serial.js';
 
-const ui = Object.fromEntries(['conectar', 'demo', 'iniciar', 'parar', 'aplicar', 'intervalo',
+const ui = Object.fromEntries(['conectar', 'demo', 'iniciar', 'parar', 'aplicar', 'lento', 'rápido', 'intervalo',
   'intervaloValor', 'fonte', 'conexao', 'estado', 'modo', 'confirmado', 'frequencia',
   'idade', 'mensagem', 'log', 'falha', 'ledIndicador', 'avisoFonte'].map(id => [id, document.getElementById(id)]));
 let model;
@@ -41,7 +41,7 @@ function render() {
   ui.confirmado.textContent = fresh && state.period !== null ? `${state.period} ms` : '—';
   ui.frequencia.textContent = fresh && state.period !== null ? `${(1000 / state.period).toFixed(2).replace('.', ',')} Hz` : '—';
   ui.idade.textContent = state.lastState === null ? '—' : `${((now - state.lastState) / 1000).toFixed(1)} s${fresh ? '' : ' · vencido'}`;
-  for (const id of ['iniciar', 'parar', 'intervalo', 'aplicar']) ui[id].disabled = busy || !active || !fresh;
+  for (const id of ['iniciar', 'parar', 'intervalo', 'aplicar', 'lento', 'rápido']) ui[id].disabled = busy || !active || !fresh;
   ui.conectar.disabled = busy; ui.demo.disabled = busy;
   ui.conectar.textContent = busy ? 'AGUARDE…' : source === 'usb' ? 'DESCONECTAR USB' : 'CONECTAR ESP32';
   ui.demo.textContent = source === 'demo' ? 'ENCERRAR DEMO' : 'INICIAR DEMO';
@@ -121,6 +121,8 @@ ui.demo.addEventListener('click', toggleDemo);
 ui.iniciar.addEventListener('click', () => send('B'));
 ui.parar.addEventListener('click', () => send('P'));
 ui.aplicar.addEventListener('click', () => send(`T:${ui.intervalo.value}`));
+ui.lento.addEventListener('click', () => send('T:2000'));
+ui['rápido'].addEventListener('click', () => send('T:200'));
 ui.intervalo.addEventListener('input', () => { ui.intervaloValor.textContent = `${ui.intervalo.value} ms`; });
 ui.falha.addEventListener('click', () => {
   if (source !== 'demo') return;

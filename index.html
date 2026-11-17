@@ -23,6 +23,10 @@
       <input id="intervalo" type="range" min="100" max="2000" step="100" value="1000" disabled>
       <div class="escala"><span>100 ms / 10 Hz</span><span>2000 ms / 0,5 Hz</span></div>
       <button id="aplicar" disabled>APLICAR PERÍODO</button>
+      <div class="acoes">
+        <button id="lento" disabled>LENTO (2000 ms)</button>
+        <button id="rápido" disabled>RÁPIDO (200 ms)</button>
+      </div>
       <div class="acoes"><button id="iniciar" class="green" disabled>INICIAR PISCA</button><button id="parar" class="red" disabled>PARAR E APAGAR</button></div>
       <button id="falha" disabled>SIMULAR PERDA DE DADOS</button>
       <p id="mensagem" role="status">A placa começa piscando após a gravação, mesmo sem o navegador.</p>
